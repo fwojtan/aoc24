@@ -1,8 +1,6 @@
-# AdventOfCodeTemplate
+# AdventOfCode 2024!
 
-A sample template for Rust solutions to any one year of [Advent of Code](https://adventofcode.com/).
-
-Adapted by Finlay Wojtan from a [previous template](https://github.com/CastleQuirm/AdventOfCodeTemplate) by Simon Castle (which was itself adapted from a previous template by Chris Paterson).
+Template adapted by Finlay Wojtan from a [previous template](https://github.com/CastleQuirm/AdventOfCodeTemplate) by Simon Castle (which was itself adapted from a previous template by Chris Paterson).
 
 ## How to Use
 
