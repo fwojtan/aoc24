@@ -43,8 +43,28 @@ Start implementing solutions!
 ### Benchmarking
 Pass `--bench` when running (e.g. `cargo run 0 --bench`) to benchmark your code using [iai](https://github.com/bheisler/iai). For the purposes of benchmarking, each solution is split into `parse_input`, `part_one` and `part_two`. 
 
-## Other things I might at some point add...
-- [ ] benchmarking using criterion
-- [ ] cargo flamegraph CPU profiles
-- [ ] heap allocation info using valgrind/massif
-- [ ] better parsing of bench output
+## Notes on 2024
+
+### Day 2
+Interesting (and slightly annoying) twist for a day 2 puzzle. I ended up brute forcing it before refactoring and optimizing. Total runtime of about 220μs. Most of that is in the parsing. Going from my brute-force to smarter solution for part 2 led to ~30% speedup.
+
+### Day 3
+Is it me or is this rather fiendish for this early in the month..! My bad for taking the opportunity to try and learn `nom` I guess. Initial working part 1 was fairly slow (200+μs) because I was allocating space for data I was discarding with `many_till`. A refactor sped up a lot when manually skipping data:
+```
+parsing_and_part_one
+  Instructions:              925202 (-59.47754%)
+  L1 Accesses:              1336183 (-59.06385%)
+  L2 Accesses:                   71 (-44.09449%)
+  RAM Accesses:                 566 (-30.55215%)
+  Estimated Cycles:         1356348 (-58.81400%)
+```
+Then inevitably with more complex parsing for part 2, that win is a bit less good...
+```
+parsing_and_part_one
+  Instructions:             1399924 (+51.31009%)
+  L1 Accesses:              2014202 (+50.74297%)
+  L2 Accesses:                   81 (+14.08451%)
+  RAM Accesses:                 590 (+4.240283%)
+  Estimated Cycles:         2035257 (+50.05419%)
+```
+Still... pretty zippy, less than 120μs total (almost entirely on parsing).
