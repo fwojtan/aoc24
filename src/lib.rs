@@ -1,3 +1,4 @@
+#![feature(iter_map_windows)]
 use std::process::Command;
 
 pub mod day00;
