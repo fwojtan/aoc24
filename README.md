@@ -68,3 +68,8 @@ parsing_and_part_one
   Estimated Cycles:         2035257 (+50.05419%)
 ```
 Still... pretty zippy, less than 120μs total (almost entirely on parsing).
+
+### Day 4
+Bit of a fiddly one. Initial part 1 solution was messy and slow. Used a `VecDeque` to track 4 last seen items. Part 2 solution was basically entirely independent of part 1 :(
+
+Then went back to my part 1 and replaced my `VecDeque` with an enum-based FSM to track progress through the word. This was a *10x* speedup! Yay!
