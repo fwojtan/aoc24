@@ -73,3 +73,6 @@ Still... pretty zippy, less than 120μs total (almost entirely on parsing).
 Bit of a fiddly one. Initial part 1 solution was messy and slow. Used a `VecDeque` to track 4 last seen items. Part 2 solution was basically entirely independent of part 1 :(
 
 Then went back to my part 1 and replaced my `VecDeque` with an enum-based FSM to track progress through the word. This was a *10x* speedup! Yay!
+
+### Day 5
+First one I don't want to bother optimising. Wasted a bunch of time making a really stupid mistake (summing lots of u8s and sliently overflowing). After spotting that my part one worked just fine and part 2 was ok to implement too. But solution is a bit nasty and brute forcey.
