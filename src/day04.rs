@@ -1,14 +1,14 @@
-use std::collections::VecDeque;
+// use std::collections::VecDeque;
 
-use once_cell::sync::Lazy;
+// use once_cell::sync::Lazy;
 
 use crate::Solution;
 
 #[derive(Clone, Debug)]
 pub struct Day04;
 
-const XMAS: Lazy<VecDeque<char>> = Lazy::new(|| VecDeque::from(['X', 'M', 'A', 'S']));
-const SAMX: Lazy<VecDeque<char>> = Lazy::new(|| VecDeque::from(['S', 'A', 'M', 'X']));
+// const XMAS: Lazy<VecDeque<char>> = Lazy::new(|| VecDeque::from(['X', 'M', 'A', 'S']));
+// const SAMX: Lazy<VecDeque<char>> = Lazy::new(|| VecDeque::from(['S', 'A', 'M', 'X']));
 
 enum WordProgress {
     None,

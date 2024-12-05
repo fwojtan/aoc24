@@ -71,48 +71,48 @@ fn first_unsafe_diff_idx(diffs: &Vec<i8>) -> Option<usize> {
     None
 }
 
-fn can_make_safe_brute(diffs: &Vec<i8>) -> bool {
-    let is_safe = if !check_safe(diffs) {
-        // check with first item removed
-        let now_safe = check_safe(&diffs.iter().map(|i| *i).skip(1).collect::<Vec<i8>>());
-        if now_safe {
-            true
-        } else {
-            // check with subsequent items removed
-            let mut now_safe = false;
-            for i in 1..diffs.len() {
-                let mut new_diffs = vec![];
-                for j in 0..diffs.len() {
-                    if i == j {
-                        new_diffs.push(diffs[i] + diffs[i - 1]);
-                    } else if j != i - 1 {
-                        new_diffs.push(diffs[j]);
-                    }
-                }
-                now_safe = check_safe(&new_diffs);
-                if now_safe {
-                    break;
-                }
-            }
-            if now_safe {
-                true
-            } else {
-                // check with last item removed
-                check_safe(
-                    &diffs
-                        .iter()
-                        .map(|i| *i)
-                        .take(diffs.len() - 1)
-                        .collect::<Vec<i8>>(),
-                )
-            }
-        }
-    } else {
-        // row was already safe
-        true
-    };
-    is_safe
-}
+// fn can_make_safe_brute(diffs: &Vec<i8>) -> bool {
+//     let is_safe = if !check_safe(diffs) {
+//         // check with first item removed
+//         let now_safe = check_safe(&diffs.iter().map(|i| *i).skip(1).collect::<Vec<i8>>());
+//         if now_safe {
+//             true
+//         } else {
+//             // check with subsequent items removed
+//             let mut now_safe = false;
+//             for i in 1..diffs.len() {
+//                 let mut new_diffs = vec![];
+//                 for j in 0..diffs.len() {
+//                     if i == j {
+//                         new_diffs.push(diffs[i] + diffs[i - 1]);
+//                     } else if j != i - 1 {
+//                         new_diffs.push(diffs[j]);
+//                     }
+//                 }
+//                 now_safe = check_safe(&new_diffs);
+//                 if now_safe {
+//                     break;
+//                 }
+//             }
+//             if now_safe {
+//                 true
+//             } else {
+//                 // check with last item removed
+//                 check_safe(
+//                     &diffs
+//                         .iter()
+//                         .map(|i| *i)
+//                         .take(diffs.len() - 1)
+//                         .collect::<Vec<i8>>(),
+//                 )
+//             }
+//         }
+//     } else {
+//         // row was already safe
+//         true
+//     };
+//     is_safe
+// }
 
 fn can_make_safe(diffs: &Vec<i8>) -> bool {
     let idx = first_unsafe_diff_idx(diffs);
