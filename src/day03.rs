@@ -23,12 +23,14 @@ impl Solution for Day03 {
     }
 
     fn part_one(parsed_input: &mut Self::ParsedInput) -> String {
-        parsed_input.iter().filter_map(|i| {
-            match i {
+        parsed_input
+            .iter()
+            .filter_map(|i| match i {
                 Instruction::Mul(a) => Some(a),
                 Instruction::Do | Instruction::Dont => None,
-            }
-        }).sum::<u64>().to_string()
+            })
+            .sum::<u64>()
+            .to_string()
     }
 
     fn part_two(parsed_input: &mut Self::ParsedInput) -> String {
@@ -40,7 +42,7 @@ impl Solution for Day03 {
                     if enabled {
                         total += *a;
                     }
-                },
+                }
                 Instruction::Do => enabled = true,
                 Instruction::Dont => enabled = false,
             }
@@ -65,12 +67,17 @@ pub enum Instruction {
 
 fn parse_mul<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, Instruction> {
     tuple((tag("mul("), digit1::<&str, E>, char(','), digit1, char(')')))(i)
-    .map(|(rem, (_a, b, _c, d, _e))| (rem, Instruction::Mul(b.parse::<u64>().unwrap() * d.parse::<u64>().unwrap())))
-    .map_err(|e| {match e {
-        nom::Err::Incomplete(needed) => nom::Err::Incomplete(needed),
-        nom::Err::Error(_) => nom::Err::Error(nom::error::Error::new(i, ErrorKind::Digit)),
-        nom::Err::Failure(_) => nom::Err::Failure(nom::error::Error::new(i, ErrorKind::Fail)),
-    }})
+        .map(|(rem, (_a, b, _c, d, _e))| {
+            (
+                rem,
+                Instruction::Mul(b.parse::<u64>().unwrap() * d.parse::<u64>().unwrap()),
+            )
+        })
+        .map_err(|e| match e {
+            nom::Err::Incomplete(needed) => nom::Err::Incomplete(needed),
+            nom::Err::Error(_) => nom::Err::Error(nom::error::Error::new(i, ErrorKind::Digit)),
+            nom::Err::Failure(_) => nom::Err::Failure(nom::error::Error::new(i, ErrorKind::Fail)),
+        })
 }
 
 fn parse_do<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, Instruction> {
@@ -81,12 +88,28 @@ fn parse_dont<'a, E: ParseError<&'a str>>(i: &'a str) -> IResult<&'a str, Instru
     tag("don't()")(i).map(|(rem, _val)| (rem, Instruction::Dont))
 }
 
-fn parse_next_instruction<'a, E: ParseError<&'a str>>(mut i: &'a str) -> IResult<&'a str, Instruction> {
+fn parse_next_instruction<'a, E: ParseError<&'a str>>(
+    mut i: &'a str,
+) -> IResult<&'a str, Instruction> {
     loop {
         match alt((parse_mul::<E>, parse_do::<E>, parse_dont::<E>))(i) {
             Ok((rem, instruction)) => return Ok((rem, instruction)),
-            Err(nom::Err::Error(_e)) => if !i.is_empty() {i = &i[1..]} else {return Err(nom::Err::Error(nom::error::Error::new(i, ErrorKind::Complete)))},
-            Err(nom::Err::Failure(_e)) => return Err(nom::Err::Failure(nom::error::Error::new(i, ErrorKind::Fail))),
+            Err(nom::Err::Error(_e)) => {
+                if !i.is_empty() {
+                    i = &i[1..]
+                } else {
+                    return Err(nom::Err::Error(nom::error::Error::new(
+                        i,
+                        ErrorKind::Complete,
+                    )));
+                }
+            }
+            Err(nom::Err::Failure(_e)) => {
+                return Err(nom::Err::Failure(nom::error::Error::new(
+                    i,
+                    ErrorKind::Fail,
+                )))
+            }
             Err(nom::Err::Incomplete(e)) => return Err(nom::Err::Incomplete(e)),
         }
     }

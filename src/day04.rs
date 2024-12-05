@@ -28,7 +28,10 @@ struct Tracker {
 
 impl Tracker {
     fn new() -> Self {
-        Tracker{ count: 0 , word_progress: WordProgress::None}
+        Tracker {
+            count: 0,
+            word_progress: WordProgress::None,
+        }
     }
 
     // fn update(&mut self, new_char: char) {
@@ -50,20 +53,16 @@ impl Tracker {
                 }
                 self.word_progress = WordProgress::X;
             }
-            'M' => {
-                match self.word_progress {
-                    WordProgress::X => self.word_progress = WordProgress::Xm,
-                    WordProgress::Sa => self.word_progress = WordProgress::Sam,
-                    _ => self.word_progress = WordProgress::None,
-                }
-            }
-            'A' => {
-                match self.word_progress {
-                    WordProgress::Xm => self.word_progress = WordProgress::Xma,
-                    WordProgress::S => self.word_progress = WordProgress::Sa,
-                    _ => self.word_progress = WordProgress::None,
-                }
-            }
+            'M' => match self.word_progress {
+                WordProgress::X => self.word_progress = WordProgress::Xm,
+                WordProgress::Sa => self.word_progress = WordProgress::Sam,
+                _ => self.word_progress = WordProgress::None,
+            },
+            'A' => match self.word_progress {
+                WordProgress::Xm => self.word_progress = WordProgress::Xma,
+                WordProgress::S => self.word_progress = WordProgress::Sa,
+                _ => self.word_progress = WordProgress::None,
+            },
             'S' => {
                 match self.word_progress {
                     WordProgress::Xma => self.count += 1,
@@ -107,7 +106,7 @@ impl Solution for Day04 {
         let mut tracker = Tracker::new();
         for row_idx in 0..n_rows {
             for col_idx in 0..n_cols {
-                tracker.update(parsed_input[row_idx][col_idx]);             
+                tracker.update(parsed_input[row_idx][col_idx]);
             }
             tracker.new_line();
         }
@@ -140,7 +139,7 @@ impl Solution for Day04 {
         }
 
         // TR -> BL diagonals
-        for row_idx in 0..(n_rows-3) {
+        for row_idx in 0..(n_rows - 3) {
             let mut i = 0;
             while n_cols - 1 - i > 0 && i + row_idx < n_rows {
                 tracker.update(parsed_input[i + row_idx][n_cols - 1 - i]);
@@ -176,9 +175,10 @@ impl Solution for Day04 {
 
                     // Four orientations
                     if tl == 'M' && tr == 'M' && bl == 'S' && br == 'S'
-                    || tl == 'S' && tr == 'S' && bl == 'M' && br == 'M'
-                    || tl == 'M' && tr == 'S' && bl == 'M' && br == 'S'
-                    || tl == 'S' && tr == 'M' && bl == 'S' && br == 'M' {
+                        || tl == 'S' && tr == 'S' && bl == 'M' && br == 'M'
+                        || tl == 'M' && tr == 'S' && bl == 'M' && br == 'S'
+                        || tl == 'S' && tr == 'M' && bl == 'S' && br == 'M'
+                    {
                         count += 1;
                     }
                 }
@@ -194,7 +194,9 @@ mod tests {
 
     #[test]
     fn check_day04_part1_case1() {
-        assert_eq!(Day04::solve_part_one("MMMSXXMASM
+        assert_eq!(
+            Day04::solve_part_one(
+                "MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
 MSAMASMSMX
@@ -203,12 +205,17 @@ XXAMMXXAMA
 SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
-MXMXAXMASX"), "18".to_string())
+MXMXAXMASX"
+            ),
+            "18".to_string()
+        )
     }
 
     #[test]
     fn check_day04_part2_case1() {
-        assert_eq!(Day04::solve_part_two("MMMSXXMASM
+        assert_eq!(
+            Day04::solve_part_two(
+                "MMMSXXMASM
 MSAMXMSMSA
 AMXSXMAAMM
 MSAMASMSMX
@@ -217,7 +224,9 @@ XXAMMXXAMA
 SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
-MXMXAXMASX"), "9".to_string())
+MXMXAXMASX"
+            ),
+            "9".to_string()
+        )
     }
-
 }
